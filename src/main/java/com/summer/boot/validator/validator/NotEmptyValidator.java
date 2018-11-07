@@ -30,7 +30,7 @@ public class NotEmptyValidator extends AbstractAnnotationValidator<NotEmpty> {
         if(!notEmpty.enable()){
             return ValidateResult.SUCCESS;
         }
-        if(paramName==null || (paramValue instanceof String && StringUtils.isEmpty((String)paramValue))){
+        if(paramValue==null || (paramValue instanceof String && StringUtils.isEmpty((String)paramValue))){
             String msg=notEmpty.msg();
             if(StringUtils.isBlank(msg)){
                 msg="参数校验失败,参数:"+paramName+"不能为空";

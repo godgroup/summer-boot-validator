@@ -1,15 +1,27 @@
 package com.summer.boot.validator;
 
+import com.summer.boot.validator.rule.FieldTypeValidateFactory;
+import com.summer.boot.validator.rule.FiledTypeEnum;
 import com.summer.boot.validator.validator.AbstractAnnotationValidator;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicTypeValidate implements ValidateOperation {
+/**
+* @description: 基本数据校验器(Long String等)
+* @author:       yalunwang
+* @createDate:  2018/11/6 15:56
+* @version:      1.0
+*/
+@Component
+public class BasicTypeValidate implements ValidateOperation, InitializingBean {
 
     @Override
+    @SuppressWarnings(value = "unchecked")
     public ValidateResult validate(Method method, int paramIndex, Class<?> paramClass, String paramName, Object paramValue) {
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
         BasicTypeInfo basicTypeInfo = new BasicTypeInfo();
@@ -23,6 +35,7 @@ public class BasicTypeValidate implements ValidateOperation {
                     AbstractAnnotationValidator.getAnnotationValidator(annotation.annotationType()));
             annotationValidatorWrapperList.add(annotationValidatorWrapper);
         }
+        basicTypeInfo.setAnnotationValidatorWrapperList(annotationValidatorWrapperList);
         for (AnnotationValidatorWrapper annotationValidatorWrapper : basicTypeInfo.getAnnotationValidatorWrapperList()) {
             ValidateResult  result = annotationValidatorWrapper.getValidator()
                     .validate(annotationValidatorWrapper.getAnnotation(), paramName, paramValue);
@@ -31,5 +44,11 @@ public class BasicTypeValidate implements ValidateOperation {
             }
         }
         return ValidateResult.SUCCESS;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        //注册基本类型的校验器
+        FieldTypeValidateFactory.MAP.putIfAbsent(FiledTypeEnum.Basic,this);
     }
 }
