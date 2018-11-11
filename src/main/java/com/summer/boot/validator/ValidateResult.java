@@ -32,7 +32,7 @@ public class ValidateResult {
         return valid;
     }
 
-    public ErrorDetail getFailedReason() {
+    public ErrorDetail getErrorDetail() {
         return errorDetail;
     }
 
@@ -40,7 +40,4 @@ public class ValidateResult {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
 }

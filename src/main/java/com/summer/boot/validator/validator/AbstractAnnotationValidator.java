@@ -1,13 +1,18 @@
 package com.summer.boot.validator.validator;
 
 import com.summer.boot.validator.ValidateResult;
+import com.summer.boot.validator.config.ValidatorConfig;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractAnnotationValidator<T> implements InitializingBean {
+
+    @Autowired
+    ValidatorConfig validatorConfig;
 
     public final static Map<Class<? extends Annotation>, AbstractAnnotationValidator> ANNOTATION_VALIDATOR_MAP=new ConcurrentHashMap<>();
 
@@ -29,5 +34,9 @@ public abstract class AbstractAnnotationValidator<T> implements InitializingBean
         return ANNOTATION_VALIDATOR_MAP.get(annotationType);
     }
 
-    public   abstract  ValidateResult validate(T t, String paramName, Object paramValue);
+    public  abstract  ValidateResult validate(T t, String paramName, Object paramValue);
+
+    public int getErrorCode() {
+        return validatorConfig.getErrorCode();
+    }
 }

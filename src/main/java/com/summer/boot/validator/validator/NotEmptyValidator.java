@@ -36,7 +36,7 @@ public class NotEmptyValidator extends AbstractAnnotationValidator<NotEmpty> {
                 msg="参数校验失败,参数:"+paramName+"不能为空";
             }
 
-           return ValidateResult.ERROR(22, new ErrorDetail(paramName,paramValue,msg));
+           return ValidateResult.ERROR(this.getErrorCode(), new ErrorDetail(paramName,paramValue,msg));
         }
         return ValidateResult.SUCCESS;
     }

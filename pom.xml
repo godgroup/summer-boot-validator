@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>summer-boot-validator</name>
-    <description>Demo project for Spring Boot</description>
+    <description>api validator pa</description>
 
 
     <properties>
