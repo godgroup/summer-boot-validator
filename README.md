@@ -49,7 +49,7 @@ public class DemoRequest {
 ```java
 summer-boot-validator一共需要两个配置
 summer.boot.validator.errorCode=-9999        --校验的参数如不符合入参的设置抛出的错误码 默认为-9999
-summer.boot.validator.enable=false   --是否开启校验     默认为false
+summer.boot.validator.enable=false   --是否开启校验     默认false
 
 如果想用使用需要开启校验 summer.boot.validator.enable=true
 如果自己约定错误码 summer.boot.validator.errorCode=xxxx (自己的错误码)
