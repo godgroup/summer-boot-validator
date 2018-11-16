@@ -7,9 +7,9 @@
 **欢迎使用,多多加star,如使用过程中碰到问题，可以提出Issue，我们会尽力完善。
 
 # 如何使用
-summer-boot-validator支持三种类型的请求校验
+## summer-boot-validator支持三种类型的请求校验
 
-- 简单参数直接定义在方法入参内
+1. 简单参数直接定义在方法入参内
 
 ```java
 @RequestMapping("/hi")
@@ -18,7 +18,7 @@ public String hi(@NotEmpty String name){
 }
 ```
 
-- 定义请求request类时可以加上
+2. 定义请求request类时可以加上
 
 ```java
 public class DemoRequest {
@@ -32,7 +32,7 @@ public class DemoRequest {
    
 }
 ```
-- 支持批量执行(有些场景是需要批量操作)
+3. 支持批量执行(有些场景是需要批量操作)
 
 ```java
 public class DemoRequest {
@@ -44,6 +44,27 @@ public class DemoRequest {
    
 }
 ```
-
-
+## 捕获summer-boot-validato的异常
+summer-boot-validato 如果发现入参参数不符合你的设置会抛出ValidateRuntimeException异常请在项目统一异常错误里处理一下，返回符合自己项目要求的返回,下面是一个例子：
+```java
+@RestControllerAdvice
+public class ExceptionAdvice {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionAdvice.class);
+    @ExceptionHandler
+    public ApiResponse<Object> handler(HttpServletRequest request, Exception ex) {
+        StringBuilder errorMessage = new StringBuilder();
+        Integer errorCode = 0;
+        if (ex instanceof ValidateRuntimeException) {
+            ValidateRuntimeException validateRuntimeException = (ValidateRuntimeException) ex;
+            errorCode = validateRuntimeException.getCode();
+            errorMessage.append(JSON.toJSONString(validateRuntimeException.getFailedReason()));
+            LOGGER.error(errorMessage.toString());
+        } else {
+            //其他异常
+        }
+        LOGGER.error(ex.getMessage(), ex);
+        return ApiResponse.fail(errorCode, errorMessage.toString());
+    }
+}
+```
 
