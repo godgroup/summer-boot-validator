@@ -2,6 +2,7 @@ package com.summer.boot.validator.aop;
 
 
 import com.summer.boot.validator.MethodInfo;
+import com.summer.boot.validator.config.ValidatorConfig;
 import com.summer.boot.validator.rule.ValidateOperation;
 import com.summer.boot.validator.ValidateResult;
 import com.summer.boot.validator.exception.ValidateRuntimeException;
@@ -11,6 +12,7 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +31,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Order(-1)
 public class ControllerAspect {
 
+    @Autowired
+    ValidatorConfig validatorConfig;
     private static final ConcurrentHashMap<Method, MethodInfo> METHODINFO_MAP = new ConcurrentHashMap<>();
     /**
      * 拦截 @RequestMapping
@@ -38,6 +42,11 @@ public class ControllerAspect {
      */
     @Around("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public Object aroundExecution(ProceedingJoinPoint joinPoint) throws Throwable {
+
+        if(!validatorConfig.isEnable()){
+            return joinPoint.proceed();
+        }
+
         Object[] args = joinPoint.getArgs();
         Signature signature = joinPoint.getSignature();
 
