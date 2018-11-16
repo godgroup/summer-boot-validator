@@ -46,13 +46,14 @@ public class DemoRequest {
 ```
 
 ## 必要的配置
-
+```java
 summer-boot-validator一共需要两个配置
 summer.boot.validator.errorCode=-9999        --校验的参数如不符合入参的设置抛出的错误码 默认为-9999
 summer.boot.validator.enable=false   --是否开启校验     默认为false
 
 如果想用使用需要开启校验 summer.boot.validator.enable=true
 如果自己约定错误码 summer.boot.validator.errorCode=xxxx (自己的错误码)
+```
 
 ## 捕获summer-boot-validato的异常
 summer-boot-validator 如果发现入参参数不符合你的设置会抛出ValidateRuntimeException异常请在项目统一异常错误里处理一下，返回符合自己项目要求的返回,下面是一个例子：
