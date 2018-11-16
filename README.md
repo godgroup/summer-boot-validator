@@ -27,8 +27,8 @@ public class DemoRequest {
     private String name;
     @NotEmpty
     private String age;
-    省略get set
-    开发时请务必加上get set
+    //省略get set
+    //开发时请务必加上get set
    
 }
 ```
