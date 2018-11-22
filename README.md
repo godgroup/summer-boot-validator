@@ -78,4 +78,29 @@ public class ExceptionAdvice {
     }
 }
 ```
+## 扩展自己的校验器
+ 如果本项目提供的注解校验不能满足完全满足你的校验需求，你可以自定义自己的校验器,只需要以下两个步骤即可：
+ 1. 定义自己的注解 eg.NotEmpty
+ 2. 编写注解对应的校验器 eg.
+```java
+   @Component
+  public class NotEmptyValidator extends AbstractAnnotationValidator<NotEmpty> {
 
+       @Override
+       public void afterPropertiesSet() throws Exception {
+           registerValidator(NotEmpty.class,this);
+       }
+       /**
+        * 校验实现
+        * @param notEmpty
+        * @param paramName
+        * @param paramValue
+        * @return
+        */
+       @Override
+       public ValidateResult validate(NotEmpty notEmpty, String paramName, Object paramValue){
+       }
+  }
+    ```java
+    
+  这样你就使用这个校验注解了。    
